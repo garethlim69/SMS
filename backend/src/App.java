@@ -16,14 +16,18 @@ public class App {
     public static void main(String[] args) throws Exception {
         // RegisterAdmin();
         // LoginAdmin();
-        // RegisterSC();
+        
         // LoginSC();
-        PrintDetails();
-        AdminEditProfile();
-        PrintDetails();
+        // PrintDetails();
+        // AdminEditProfile();
+        PrintDetailsSC();
+        RegisterSC();
+        // ResetSCPw("SC3");
+        // DeleteSCProfile("SC1");
+        PrintDetailsSC();
     }
 
-    public static void PrintDetails(){
+    public static void PrintDetailsAdmin(){
         String fileName = "src/Text Files/Admin.txt";
         ArrayList<Admin> adminList = new ArrayList<Admin>();
         ObjectInputStream is;
@@ -51,6 +55,111 @@ public class App {
             System.out.println("Password: " + adminList.get(i).getPassword());
         }
         System.out.println("-------------------------------------");
+    }
+
+    public static void PrintDetailsSC(){
+        String fileName = "src/Text Files/SurveyCreator.txt";
+        ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
+        ObjectInputStream is;
+        try {
+            is = new ObjectInputStream(new FileInputStream(fileName));
+            try {
+                scList = (ArrayList) is.readObject();
+            } catch (ClassNotFoundException e1) {
+                System.out.println("Class Not Found");
+                e1.printStackTrace();
+            }
+            is.close();
+        } catch (FileNotFoundException e1) {
+            System.out.println("File Not Found");
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            System.out.println("IO Exception");
+            e1.printStackTrace();
+        }
+        System.out.println("-------------------------------------");
+        for (int i = 0; i < scList.size(); i++){
+            System.out.println("SCID: " + scList.get(i).getScID());
+            System.out.println("Username: " + scList.get(i).getCreatorName());
+            System.out.println("Password: " + scList.get(i).getPassword());
+            System.out.println("First Name: " + scList.get(i).getFirstName());
+            System.out.println("Last Name: " + scList.get(i).getLastName());
+            System.out.println("Email: " + scList.get(i).getEmail());
+            System.out.println("Contact Number: " + scList.get(i).getContactNumber());
+            System.out.println("Age: " + scList.get(i).getAge());
+            System.out.println("Gender: " + scList.get(i).getGender());
+        }
+        System.out.println("-------------------------------------");
+    }
+
+    public static void ResetSCPw(String scID){
+        String fileName = "src/Text Files/SurveyCreator.txt";
+        ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
+        ObjectInputStream is;
+        try {
+            is = new ObjectInputStream(new FileInputStream(fileName));
+            try {
+                scList = (ArrayList) is.readObject();
+            } catch (ClassNotFoundException e1) {
+                System.out.println("Class Not Found");
+                e1.printStackTrace();
+            }
+            is.close();
+        } catch (FileNotFoundException e1) {
+            System.out.println("File Not Found");
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            System.out.println("IO Exception");
+            e1.printStackTrace();
+        }
+        for (int i = 0; i < scList.size(); i++){
+            if (scID.equals(scList.get(i).getScID())){
+                scList.get(i).setPassword(encryptPassword("pw2"));
+            }
+        }
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName, false));
+            os.writeObject(scList);
+            os.close();
+            System.out.println("Password Reset Successfully.");
+            } catch (IOException e1){
+            System.out.println("IOException");
+        }
+    } 
+
+    public static void DeleteSCProfile(String scID){
+        String fileName = "src/Text Files/SurveyCreator.txt";
+        ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
+        ObjectInputStream is;
+        try {
+            is = new ObjectInputStream(new FileInputStream(fileName));
+            try {
+                scList = (ArrayList) is.readObject();
+            } catch (ClassNotFoundException e1) {
+                System.out.println("Class Not Found");
+                e1.printStackTrace();
+            }
+            is.close();
+        } catch (FileNotFoundException e1) {
+            System.out.println("File Not Found");
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            System.out.println("IO Exception");
+            e1.printStackTrace();
+        }
+        for (int i = 0; i < scList.size(); i++){
+            if (scID.equals(scList.get(i).getScID())){
+                scList.remove(i);
+            }
+        }
+        try {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName, false));
+            os.writeObject(scList);
+            os.close();
+            System.out.println("Profile Deleted Successfully.");
+            } catch (IOException e1){
+            System.out.println("IOException");
+        }
     }
 
     public static void AdminEditProfile(){
@@ -369,12 +478,12 @@ public class App {
         }
  
         String scID = "SC" + index;
-        String creatorName = "SurveyCreator3";
-        String password = "pw1";
+        String creatorName = "SurveyCreator4";
+        String password = "pw4";
         String firstName = "Joe";
         String lastName = "Mama";
-        String email = "mail1@mail.com";
-        String contactNumber = "0123456789";
+        String email = "mail4@mail.com";
+        String contactNumber = "0123456780";
         int Age = 45;
         String gender = "M";
 
@@ -408,7 +517,7 @@ public class App {
             System.out.println("IOException");
             }    
         } else if (flag == 1) {
-            System.out.println("Username Already Exists. Please Try Another.");
+            System.out.println("Username, E-mail or Contact Number Already Exists. Please Try Another.");
         } else if (flag == 2) {
             System.out.println("Contact Number Must Contain Only Numbers.");
         }
