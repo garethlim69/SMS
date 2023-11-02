@@ -19,7 +19,7 @@ public class Admin implements Serializable{
         return this.adminID;
     }
 
-    public void setAdminID(){
+    public void setAdminID(String adminID){
         this.adminID = adminID;
     }
 

@@ -11,20 +11,23 @@ import java.util.ArrayList;
 
 import Objects.Admin;
 import Objects.SurveyCreator;
+import Survey.Survey;
 
 public class App {
     public static void main(String[] args) throws Exception {
         // RegisterAdmin();
         // LoginAdmin();
-        
         // LoginSC();
         // PrintDetails();
         // AdminEditProfile();
-        PrintDetailsSC();
-        RegisterSC();
+        // PrintDetailsSC();
+        // RegisterSC();
         // ResetSCPw("SC3");
         // DeleteSCProfile("SC1");
-        PrintDetailsSC();
+        // PrintDetailsSC();
+        // Survey.ViewSurveys();
+        Survey.ChangeStatus("S3", "approved");
+        // Survey.setVariable(0, "12345");
     }
 
     public static void PrintDetailsAdmin(){
