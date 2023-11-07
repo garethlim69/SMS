@@ -166,15 +166,15 @@ public class Survey {
 
         //build the question and answers into a single string
         // qNo = 0 means question 1, qNo = 1 means question 2 etc...
-        int qNo = 3;
+        int qNo = 0;
         String questionType = "MCQ";
-        String question = "How many days in January2?";
+        String question = "How many days in a a year?";
 
         List<String> mcqAnswers = new ArrayList<>();
-        mcqAnswers.add("29");
-        mcqAnswers.add("30");
-        mcqAnswers.add("31");
-        mcqAnswers.add("32");
+        mcqAnswers.add("123");
+        mcqAnswers.add("456");
+        mcqAnswers.add("789");
+        // mcqAnswers.add("32");
 
         String polarAnswer1 = "Yes";
         String polarAnswer2 = "No";
@@ -204,18 +204,24 @@ public class Survey {
                     String[] e2 = surveyDetails.get(4).split("␝");
                     List<String> questionList = Arrays.asList(e2);
                     String fullQuestions = "";
-                    for (int i2 = 0; i2 < questionList.size(); i2++){
-                        if (i2 == (qNo * 2)){
-                            fullQuestions = fullQuestions + singleQuestion + "␝";
+                    if (questionList.size() == 1){
+                        fullQuestions = singleQuestion;
+                    } else {
+                        for (int i2 = 0; i2 < questionList.size(); i2++){
+                            if (i2 == (qNo * 2)){
+                                fullQuestions = fullQuestions + singleQuestion + "␝";
+                            }
+                            fullQuestions = fullQuestions + questionList.get(i2);
+                            if (i2 != (questionList.size() - 1)) {
+                                fullQuestions = fullQuestions + "␝";
+                            }
                         }
-                        fullQuestions = fullQuestions + questionList.get(i2);
-                        if (i2 != (questionList.size() - 1)) {
-                            fullQuestions = fullQuestions + "␝";
+                        if ((qNo * 2) >= questionList.size()){
+                            fullQuestions = fullQuestions + "␝" + singleQuestion;
                         }
                     }
-                    if ((qNo * 2) >= questionList.size()){
-                        fullQuestions = fullQuestions + "␝" + singleQuestion;
-                    }
+                    
+                    System.out.println(fullQuestions);
                     surveyDetails.set(4, fullQuestions);
                     String newRecord = "";
                     for (int i2 = 0; i2 < surveyDetails.size(); i2++){
@@ -239,11 +245,11 @@ public class Survey {
         // qNo = 0 means question 1, qNo = 1 means question 2 etc...
         int qNo = 1;
 
-        String newQ = "What is your gender?";
-        String newA1 = "M";
-        String newA2 = "F";
-        // String newA3 = "29";
-        // String newA4 = "30";
+        String newQ = "How many days in a year?";
+        String newA1 = "123";
+        String newA2 = "456";
+        String newA3 = "789";
+        // String newA4 = "32";
 
         String singleQuestion = "";
         
@@ -264,7 +270,7 @@ public class Survey {
                             questionDetails.set(0, newQ);
                             questionDetails.set(1, newA1);
                             questionDetails.set(2, newA2);
-                            // questionDetails.set(3, newA3);
+                            questionDetails.set(3, newA3);
                             // questionDetails.set(4, newA4);
                             for (int i4 = 0; i4 < questionDetails.size(); i4++){
                                 singleQuestion = singleQuestion + questionDetails.get(i4);
@@ -272,6 +278,7 @@ public class Survey {
                                     singleQuestion = singleQuestion +  "␞";
                                 }
                             }
+                            System.out.println(questionDetails);
                             System.out.println(singleQuestion);
                             questionList.set(i3, singleQuestion);
                             String fullQuestions = "";
@@ -299,6 +306,91 @@ public class Survey {
             e.printStackTrace();
         }
 
+    }
+
+    public static void DeleteQuestion(String surveyID){
+        String fileName = "src/Text Files/Surveys.txt";
+
+        // qNo = 0 means question 1, qNo = 1 means question 2 etc...
+        int qNo = 0;
+        
+        List<String> listOfSurveys;
+        try {
+            listOfSurveys = Files.readAllLines(Paths.get(fileName));
+            for (int i = 0; i < listOfSurveys.size(); i++){
+                String[] e1 = listOfSurveys.get(i).split("␜");
+                List<String> surveyDetails = Arrays.asList(e1);
+                if (surveyID.equals(surveyDetails.get(0))){
+                    String[] e2 = surveyDetails.get(4).split("␝");
+                    List<String> questionList = Arrays.asList(e2);
+                    System.out.println(questionList);
+                    // questionList.remove(qNo * 2);
+                    // questionList.remove((qNo * 2) + 1);
+                    String fullQuestions = "";
+                    for (int i4 = 0; i4 < questionList.size(); i4++){
+                        if (i4 != qNo * 2 && i4 != (qNo * 2) + 1){
+                            fullQuestions = fullQuestions + questionList.get(i4);
+                            if (i4 != (questionList.size() - 1)) {
+                                fullQuestions = fullQuestions + "␝";
+                            }
+                        }
+                    }
+                    if (fullQuestions.length() == 0){
+                        fullQuestions = " ";
+                    }
+                    System.out.println(fullQuestions);
+                    surveyDetails.set(4, fullQuestions);
+                    String newRecord = "";
+                    for (int i2 = 0; i2 < surveyDetails.size(); i2++){
+                            newRecord = newRecord + surveyDetails.get(i2);
+                        if (i2 != (surveyDetails.size() - 1)) {
+                            newRecord = newRecord + "␜";
+                        }
+                    }
+                    // System.out.println(newRecord);
+                    UpdateFile(i, newRecord);
+                    // for (int i3 = 0; i3 < questionList.size(); i3++){
+                    //     if (i3 == ((qNo * 2) + 1)){
+                    //         String[] e3 = questionList.get(i3).split("␞");
+                    //         List<String> questionDetails = Arrays.asList(e3);
+                    //         //set new question and answers here
+                    //         questionDetails.set(0, newQ);
+                    //         questionDetails.set(1, newA1);
+                    //         questionDetails.set(2, newA2);
+                    //         // questionDetails.set(3, newA3);
+                    //         // questionDetails.set(4, newA4);
+                    //         for (int i4 = 0; i4 < questionDetails.size(); i4++){
+                    //             singleQuestion = singleQuestion + questionDetails.get(i4);
+                    //             if (i4 != questionDetails.size() - 1){
+                    //                 singleQuestion = singleQuestion +  "␞";
+                    //             }
+                    //         }
+                    //         System.out.println(singleQuestion);
+                    //         questionList.set(i3, singleQuestion);
+                    //         String fullQuestions = "";
+                    //         for (int i4 = 0; i4 < questionList.size(); i4++){
+                    //             fullQuestions = fullQuestions + questionList.get(i4);
+                    //             if (i4 != (questionList.size() - 1)) {
+                    //                 fullQuestions = fullQuestions + "␝";
+                    //             }
+                    //         }
+                    //         surveyDetails.set(4, fullQuestions);
+                    //         String newRecord = "";
+                    //         for (int i2 = 0; i2 < surveyDetails.size(); i2++){
+                    //                 newRecord = newRecord + surveyDetails.get(i2);
+                    //             if (i2 != (surveyDetails.size() - 1)) {
+                    //                 newRecord = newRecord + "␜";
+                    //             }
+                    //         }
+                    //         UpdateFile(i, newRecord);
+                    //     }
+                    // }
+                }
+            }
+        }  catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
     }
 
     public static void UpdateFile(int lineNumber, String newRecord) throws IOException {
