@@ -26,8 +26,11 @@ public class App {
         // DeleteSCProfile("SC1");
         // PrintDetailsSC();
         // Survey.ViewSurveys();
-        Survey.ChangeStatus("S3", "approved");
-        // Survey.setVariable(0, "12345");
+        // Survey.ChangeStatus("S5", "blocked");
+        // Survey.EditTitle("S1", "New Survey 1");
+        // Survey.CreateSurvey();
+        // Survey.AddQuestion("S5");
+        Survey.EditQuestion("S1");
     }
 
     public static void PrintDetailsAdmin(){
