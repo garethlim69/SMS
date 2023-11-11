@@ -29,9 +29,11 @@ public class App {
         // Survey.ChangeStatus("S5", "not-approved");
         // Survey.EditTitle("S1", "New Survey 1");
         // Survey.CreateSurvey();
-        Survey.AddQuestion("S6");
+        // Survey.AddQuestion("S6");
         // Survey.EditQuestion("S7");
         // Survey.DeleteQuestion("S4");
+        // Survey.ViewResponses("S1");
+        Survey.SaveResponses("S1");
     }
 
     public static void PrintDetailsAdmin(){

@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Survey {
 
@@ -74,7 +76,7 @@ public class Survey {
                             newRecord = newRecord + "␜";
                         }
                     }
-                    UpdateFile(i, newRecord);
+                    UpdateFile(fileName, i, newRecord);
                 }
             }
         } catch (IOException e) {
@@ -118,7 +120,7 @@ public class Survey {
             listOfSurveys = Files.readAllLines(Paths.get(fileName));
             String newRecord = "S" + index + "␜" + surveyTitle + "␜" + createdBy + "␜" + status + "␜"  + questionDetails;
             System.out.println(newRecord);
-            UpdateFile(listOfSurveys.size() + 1, newRecord);
+            UpdateFile(fileName, listOfSurveys.size() + 1, newRecord);
 
             // FileWriter fileWritter = new FileWriter(file,true);        
             // BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
@@ -152,7 +154,7 @@ public class Survey {
                             newRecord = newRecord + "␜";
                         }
                     }
-                    UpdateFile(i, newRecord);
+                    UpdateFile(fileName, i, newRecord);
                 }
             }
         } catch (IOException e) {
@@ -230,7 +232,7 @@ public class Survey {
                             newRecord = newRecord + "␜";
                         }
                     }
-                    UpdateFile(i, newRecord);
+                    UpdateFile(fileName, i, newRecord);
                 }
             }
         } catch (IOException e) {
@@ -296,7 +298,7 @@ public class Survey {
                                     newRecord = newRecord + "␜";
                                 }
                             }
-                            UpdateFile(i, newRecord);
+                            UpdateFile(fileName, i, newRecord);
                         }
                     }
                 }
@@ -342,49 +344,12 @@ public class Survey {
                     surveyDetails.set(4, fullQuestions);
                     String newRecord = "";
                     for (int i2 = 0; i2 < surveyDetails.size(); i2++){
-                            newRecord = newRecord + surveyDetails.get(i2);
+                        newRecord = newRecord + surveyDetails.get(i2);
                         if (i2 != (surveyDetails.size() - 1)) {
                             newRecord = newRecord + "␜";
                         }
                     }
-                    // System.out.println(newRecord);
-                    UpdateFile(i, newRecord);
-                    // for (int i3 = 0; i3 < questionList.size(); i3++){
-                    //     if (i3 == ((qNo * 2) + 1)){
-                    //         String[] e3 = questionList.get(i3).split("␞");
-                    //         List<String> questionDetails = Arrays.asList(e3);
-                    //         //set new question and answers here
-                    //         questionDetails.set(0, newQ);
-                    //         questionDetails.set(1, newA1);
-                    //         questionDetails.set(2, newA2);
-                    //         // questionDetails.set(3, newA3);
-                    //         // questionDetails.set(4, newA4);
-                    //         for (int i4 = 0; i4 < questionDetails.size(); i4++){
-                    //             singleQuestion = singleQuestion + questionDetails.get(i4);
-                    //             if (i4 != questionDetails.size() - 1){
-                    //                 singleQuestion = singleQuestion +  "␞";
-                    //             }
-                    //         }
-                    //         System.out.println(singleQuestion);
-                    //         questionList.set(i3, singleQuestion);
-                    //         String fullQuestions = "";
-                    //         for (int i4 = 0; i4 < questionList.size(); i4++){
-                    //             fullQuestions = fullQuestions + questionList.get(i4);
-                    //             if (i4 != (questionList.size() - 1)) {
-                    //                 fullQuestions = fullQuestions + "␝";
-                    //             }
-                    //         }
-                    //         surveyDetails.set(4, fullQuestions);
-                    //         String newRecord = "";
-                    //         for (int i2 = 0; i2 < surveyDetails.size(); i2++){
-                    //                 newRecord = newRecord + surveyDetails.get(i2);
-                    //             if (i2 != (surveyDetails.size() - 1)) {
-                    //                 newRecord = newRecord + "␜";
-                    //             }
-                    //         }
-                    //         UpdateFile(i, newRecord);
-                    //     }
-                    // }
+                    UpdateFile(fileName, i, newRecord);
                 }
             }
         }  catch (IOException e) {
@@ -393,13 +358,7 @@ public class Survey {
         }
     }
 
-    public static void UpdateFile(int lineNumber, String newRecord) throws IOException {
-        // Path path = Paths.get("src/Text Files/Surveys.txt");
-        // List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-        // lines.set(lineNumber, data);
-        // Files.write(path, lines, StandardCharsets.UTF_8);
-
-        String fileName = "src/Text Files/Surveys.txt";
+    public static void UpdateFile(String fileName, int lineNumber, String newRecord) throws IOException {
         List<String> listOfSurveys;
         try {
             listOfSurveys = Files.readAllLines(Paths.get(fileName));
@@ -423,6 +382,161 @@ public class Survey {
         } catch (IOException e) {
             System.out.println("IOException");
             e.printStackTrace();
+        }
+    }
+
+
+    public static void ViewResponses(String surveyID){
+
+        List<String> individualResponses = new ArrayList<String>();
+        List<String> responseDetails = new ArrayList<String>();
+
+        List<String> allResponses;
+        try {
+            allResponses = Files.readAllLines(Paths.get("src/Text Files/Responses.txt"));
+            for ( int i = 0; i < allResponses.size(); i++){
+                if (surveyID.equals(allResponses.get(i).substring(0, 2))){
+                    individualResponses.add(allResponses.get(i));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+
+        HashMap<String, Integer> mcqMap = new HashMap<String, Integer>();
+        HashMap<String, String> openEndedMap = new HashMap<String, String>();
+
+        List<String> listOfSurveys;
+        try {
+            listOfSurveys = Files.readAllLines(Paths.get("src/Text Files/Surveys.txt"));
+            for (int i = 0; i < listOfSurveys.size(); i++){
+                String[] e1 = listOfSurveys.get(i).split("␜");
+                List<String> surveyDetails = Arrays.asList(e1);
+                if (surveyID.equals(surveyDetails.get(0))){
+                    String[] e2 = surveyDetails.get(4).split("␝");
+                    List<String> questionList = Arrays.asList(e2);
+                    for (int i3 = 0; i3 < questionList.size(); i3++){
+                        if (i3 % 2 == 0){
+                            System.out.println("Question Type: " + questionList.get(i3));
+                        } else {
+                            String[] e3 = questionList.get(i3).split("␞");
+                            List<String> questionDetails = Arrays.asList(e3);
+                            System.out.println("Question " + ((i3 / 2) + 1) + " : " + questionDetails.get(0));
+                            int a1Count = 0;
+                            int a2Count = 0;
+                            int a3Count = 0;
+                            int a4Count = 0;
+                            for (int i4 = 0; i4 < individualResponses.size(); i4++){
+                                String[] e4 = individualResponses.get(i4).split("␜");
+                                responseDetails = Arrays.asList(e4);
+                                switch (responseDetails.get((i3 / 2) + 1)) {
+                                    case "1":
+                                        a1Count++;
+                                        break;
+                                    case "2":
+                                        a2Count++;
+                                        break;
+                                    case "3":
+                                        a3Count++;
+                                        break;
+                                    case "4":
+                                        a4Count++;
+                                        break;
+                                    default:
+                                        openEndedMap.put("Q" + ((i3 / 2) + 1) + "A" + i4, responseDetails.get((i3 / 2) + 1));
+                                        break;
+                                }
+                            }
+                            mcqMap.put("Q" + ((i3 / 2) + 1) + "A1", a1Count);
+                            mcqMap.put("Q" + ((i3 / 2) + 1) + "A2", a2Count);
+                            mcqMap.put("Q" + ((i3 / 2) + 1) + "A3", a3Count);
+                            mcqMap.put("Q" + ((i3 / 2) + 1) + "A4", a4Count);
+                            if (questionList.get(i3 - 1).equals("Open-ended")){
+                                for(int i4 = 0; i4 < individualResponses.size(); i4++){
+                                    System.out.println("Answer " + i4 + ": " + openEndedMap.get("Q" + ((i3 / 2) + 1) + "A" + i4));
+                                }
+                            }
+                            for (int i4 = 1; i4 < questionDetails.size(); i4++){
+                                int noOfResponses = mcqMap.get("Q" + ((i3 / 2) + 1) + "A" + i4);
+                                int totalReponses = individualResponses.size();
+                                double responsePercentage = ((double)noOfResponses / (double)totalReponses) * 100;
+                                System.out.println("Answer " + i4 + ": " + questionDetails.get(i4) + " - " + noOfResponses + "/" + totalReponses + " or " + responsePercentage + "%");
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+    }
+
+    public static void SaveResponses(String surveyID){
+        String answer1 = "1";
+        String answer2 = "2";
+        String answer3 = "I am third Y/O";
+
+
+
+        List<String> listOfSurveys;
+        try {
+            listOfSurveys = Files.readAllLines(Paths.get("src/Text Files/Surveys.txt"));
+            for (int i = 0; i < listOfSurveys.size(); i++){
+                String[] e1 = listOfSurveys.get(i).split("␜");
+                List<String> surveyDetails = Arrays.asList(e1);
+                if (surveyID.equals(surveyDetails.get(0))){
+                    String[] e2 = surveyDetails.get(4).split("␝");
+                    List<String> questionList = Arrays.asList(e2);
+                    for (int i3 = 0; i3 < questionList.size(); i3++){
+                        if (i3 % 2 == 0){
+                            System.out.println("Question Type: " + questionList.get(i3));
+                        } else {
+                            String[] e3 = questionList.get(i3).split("␞");
+                            List<String> questionDetails = Arrays.asList(e3);
+                            System.out.println("Question " + ((i3 / 2) + 1) + " : " + questionDetails.get(0));
+                            for (int i4 = 1; i4 < questionDetails.size(); i4++){
+                                System.out.println("Answer " + i4 + ": " + questionDetails.get(i4));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+
+        List<String> answerList = new ArrayList<String>();
+        List<String> listOfResponses;
+        answerList.add(surveyID);
+        answerList.add(answer1);
+        answerList.add(answer2);
+        answerList.add(answer3);
+        String answerString = "";
+        boolean isEmpty = false;
+        for(int i = 0; i < answerList.size(); i++){
+            if(answerList.get(i).equals("")){
+                System.out.println("Question " + i + " has not been answered");
+                isEmpty = true;
+                break;
+            } else{
+                answerString = answerString + answerList.get(i);
+                if (i != (answerList.size() - 1)) {
+                    answerString = answerString + "␜";
+                }
+            }
+        }
+        if (!isEmpty) {
+            try {
+                listOfResponses = Files.readAllLines(Paths.get("src/Text Files/Responses.txt"));
+                System.out.println(answerString);
+                UpdateFile("src/Text Files/Responses.txt", listOfResponses.size() + 1, answerString);
+            } catch (IOException e) {
+                System.out.println("IO Exception");
+                e.printStackTrace();
+            }
         }
     }
 
