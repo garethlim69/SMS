@@ -39,6 +39,12 @@ public class ManageSurvey implements Initializable{
     @FXML private Label lblSCID4;
     @FXML private Label lblSCID5;
 
+    @FXML private Label lblNoOfQ1;
+    @FXML private Label lblNoOfQ2;
+    @FXML private Label lblNoOfQ3;
+    @FXML private Label lblNoOfQ4;
+    @FXML private Label lblNoOfQ5;
+
     @FXML private Button btnView1;
     @FXML private Button btnView2;
     @FXML private Button btnView3;
@@ -107,6 +113,7 @@ public class ManageSurvey implements Initializable{
         lblTitle2.setText("");
         lblStatus2.setText("");
         lblSCID2.setText("");
+        lblNoOfQ2.setText("");
         btnView2.setVisible(false);
         btnBlock2.setVisible(false);
         btnResponses2.setVisible(false);
@@ -116,6 +123,7 @@ public class ManageSurvey implements Initializable{
         lblTitle3.setText("");
         lblStatus3.setText("");
         lblSCID3.setText("");
+        lblNoOfQ3.setText("");
         btnView3.setVisible(false);
         btnBlock3.setVisible(false);
         btnResponses3.setVisible(false);
@@ -125,6 +133,7 @@ public class ManageSurvey implements Initializable{
         lblTitle4.setText("");
         lblStatus4.setText("");
         lblSCID4.setText("");
+        lblNoOfQ4.setText("");
         btnView4.setVisible(false);
         btnBlock4.setVisible(false);
         btnResponses4.setVisible(false);
@@ -134,6 +143,7 @@ public class ManageSurvey implements Initializable{
         lblTitle5.setText("");
         lblStatus5.setText("");
         lblSCID5.setText("");
+        lblNoOfQ5.setText("");
         btnView5.setVisible(false);
         btnBlock5.setVisible(false);
         btnResponses5.setVisible(false);
@@ -143,7 +153,25 @@ public class ManageSurvey implements Initializable{
         try {
             listOfSurveys = Files.readAllLines(Paths.get(fileName));
             int noOfSurveys = listOfSurveys.size();
-            if (pageNo * 5 > listOfSurveys.size()){
+            int i2 = 0;
+            for (int i = 0; i < listOfSurveys.size(); i++){
+                String[] e1 = listOfSurveys.get(i).split("␜");
+                List<String> surveyDetails = Arrays.asList(e1);
+                String[] e2 = surveyDetails.get(4).split("␝");
+                List<String> questionList = Arrays.asList(e2);
+                if (!surveyDetails.get(3).equals("deleted")){
+                    surveyDetailsMap.put("S" + (i2 + 1) + "SID", surveyDetails.get(0));
+                    surveyDetailsMap.put("S" + (i2 + 1) + "Title", surveyDetails.get(1));
+                    surveyDetailsMap.put("S" + (i2 + 1) + "SCID", surveyDetails.get(2));
+                    surveyDetailsMap.put("S" + (i2 + 1) + "Status", surveyDetails.get(3));
+                    surveyDetailsMap.put("S" + (i2 + 1) + "NoOfQ", String.valueOf(questionList.size() / 2));
+                    i2++;
+                } else {
+                    noOfSurveys--;
+                }
+            }
+            lblPageNo.setText("Page " + String.valueOf(pageNo) + "/" + (int)Math.ceil((noOfSurveys / 5.0)));
+            if (pageNo * 5 >= noOfSurveys){
                 btnNext.setDisable(true);
             } else {
                 noOfSurveys = 5;
@@ -151,36 +179,27 @@ public class ManageSurvey implements Initializable{
             if (pageNo == 1){
                 btnPrev.setDisable(true);
             }
-            lblPageNo.setText("Page " + String.valueOf(pageNo) + "/" + (int)Math.ceil((10 / 5.0)));
-            for (int i = 0; i < listOfSurveys.size(); i++){
-                String[] e1 = listOfSurveys.get(i).split("␜");
-                List<String> surveyDetails = Arrays.asList(e1);
-                if (!surveyDetails.get(3).equals("deleted")){
-                    surveyDetailsMap.put("S" + (i + 1) + "SID", surveyDetails.get(0));
-                    surveyDetailsMap.put("S" + (i + 1) + "Title", surveyDetails.get(1));
-                    surveyDetailsMap.put("S" + (i + 1) + "SCID", surveyDetails.get(2));
-                    surveyDetailsMap.put("S" + (i + 1) + "Status", surveyDetails.get(3));
-                }
-            }
+            
             int i = (pageNo * 5) - 4;
-
-            // System.out.println(listOfSurveys.size() % 5);
-
             lblSID1.setText(surveyDetailsMap.get("S" + i + "SID"));
             lblTitle1.setText(surveyDetailsMap.get("S" + i + "Title"));
             lblStatus1.setText(surveyDetailsMap.get("S" + i + "Status"));
             lblSCID1.setText(surveyDetailsMap.get("S" + i + "SCID"));
+            lblNoOfQ1.setText(surveyDetailsMap.get("S" + i + "NoOfQ"));
+            if(surveyDetailsMap.get("S" + i + "NoOfQ").equals("0")){
+                btnView1.setDisable(true);
+            }
             switch (surveyDetailsMap.get("S" + i + "Status")) {
                 case "not-approved":
-                    btnBlock1.setText("approve");
+                    btnBlock1.setText("Approve");
                     //ChangeStatus(surveyDetailsMap.get("S" + (i + 1)+ "SID"), "approved")
                     break;
                 case "approved":
-                    btnBlock1.setText("block");
+                    btnBlock1.setText("Block");
                     //ChangeStatus(surveyDetailsMap.get("S" + (i + 1)+ "SID"), "blocked")
                     break;
                 case "blocked":
-                    btnBlock1.setText("unblock");
+                    btnBlock1.setText("Unblock");
                     //ChangeStatus(surveyDetailsMap.get("S" + (i + 1)+ "SID"), "approved")
                     break;
             }
@@ -190,19 +209,23 @@ public class ManageSurvey implements Initializable{
                 lblTitle2.setText(surveyDetailsMap.get("S" + (i + 1) + "Title"));
                 lblStatus2.setText(surveyDetailsMap.get("S" + (i + 1) + "Status"));
                 lblSCID2.setText(surveyDetailsMap.get("S" + (i + 1) + "SCID"));
+                lblNoOfQ2.setText(surveyDetailsMap.get("S" + (i + 1) + "NoOfQ"));
+                if(surveyDetailsMap.get("S" + (i + 1) + "NoOfQ").equals("0")){
+                    btnView2.setDisable(true);
+                }
                 btnView2.setVisible(true);
                 btnBlock2.setVisible(true);
                 switch (surveyDetailsMap.get("S" + (i + 1) + "Status")) {
                     case "not-approved":
-                        btnBlock2.setText("approve");
+                        btnBlock2.setText("Approve");
                         //ChangeStatus(surveyDetailsMap.get("S" + (i + 1)+ "SID"), "approved")
                         break;
                     case "approved":
-                        btnBlock2.setText("block");
+                        btnBlock2.setText("Block");
                         //ChangeStatus(surveyDetailsMap.get("S" + (i + 1)+ "SID"), "blocked")
                         break;
                     case "blocked":
-                        btnBlock2.setText("unblock");
+                        btnBlock2.setText("Unblock");
                         //ChangeStatus(surveyDetailsMap.get("S" + (i + 1)+ "SID"), "approved")
                         break;
                 }
@@ -213,19 +236,23 @@ public class ManageSurvey implements Initializable{
                     lblTitle3.setText(surveyDetailsMap.get("S" + (i + 2) + "Title"));
                     lblStatus3.setText(surveyDetailsMap.get("S" + (i + 2) + "Status"));
                     lblSCID3.setText(surveyDetailsMap.get("S" + (i + 2) + "SCID"));
+                    lblNoOfQ3.setText(surveyDetailsMap.get("S" + (i + 2) + "NoOfQ"));
+                    if(surveyDetailsMap.get("S" + (i + 2) + "NoOfQ").equals("0")){
+                        btnView3.setDisable(true);
+                    }
                     btnView3.setVisible(true);
                     btnBlock3.setVisible(true);
                     switch (surveyDetailsMap.get("S" + (i + 2) + "Status")) {
                         case "not-approved":
-                            btnBlock3.setText("approve");
+                            btnBlock3.setText("Approve");
                             //ChangeStatus(surveyDetailsMap.get("S" + (i + 2)+ "SID"), "approved")
                             break;
                         case "approved":
-                            btnBlock3.setText("block");
+                            btnBlock3.setText("Block");
                             //ChangeStatus(surveyDetailsMap.get("S" + (i + 2)+ "SID"), "blocked")
                             break;
                         case "blocked":
-                            btnBlock3.setText("unblock");
+                            btnBlock3.setText("Unblock");
                             //ChangeStatus(surveyDetailsMap.get("S" + (i + 2)+ "SID"), "approved")
                             break;
                     }
@@ -236,19 +263,23 @@ public class ManageSurvey implements Initializable{
                         lblTitle4.setText(surveyDetailsMap.get("S" + (i + 3) + "Title"));
                         lblStatus4.setText(surveyDetailsMap.get("S" + (i + 3) + "Status"));
                         lblSCID4.setText(surveyDetailsMap.get("S" + (i + 3) + "SCID"));
+                        lblNoOfQ4.setText(surveyDetailsMap.get("S" + (i + 3) + "NoOfQ"));
+                        if(surveyDetailsMap.get("S" + (i + 3) + "NoOfQ").equals("0")){
+                            btnView4.setDisable(true);
+                        }
                         btnView4.setVisible(true);
                         btnBlock4.setVisible(true);
                         switch (surveyDetailsMap.get("S" + (i + 3) + "Status")) {
                             case "not-approved":
-                                btnBlock4.setText("approve");
+                                btnBlock4.setText("Approve");
                                 //ChangeStatus(surveyDetailsMap.get("S" + (i + 3)+ "SID"), "approved")
                                 break;
                             case "approved":
-                                btnBlock4.setText("block");
+                                btnBlock4.setText("Block");
                                 //ChangeStatus(surveyDetailsMap.get("S" + (i + 3)+ "SID"), "blocked")
                                 break;
                             case "blocked":
-                                btnBlock4.setText("unblock");
+                                btnBlock4.setText("Unblock");
                                 //ChangeStatus(surveyDetailsMap.get("S" + (i + 3)+ "SID"), "approved")
                                 break;
                         }
@@ -259,19 +290,23 @@ public class ManageSurvey implements Initializable{
                             lblTitle5.setText(surveyDetailsMap.get("S" + (i + 4) + "Title"));
                             lblStatus5.setText(surveyDetailsMap.get("S" + (i + 4) + "Status"));
                             lblSCID5.setText(surveyDetailsMap.get("S" + (i + 4) + "SCID"));
+                            lblNoOfQ5.setText(surveyDetailsMap.get("S" + (i + 4) + "NoOfQ"));
+                            if(surveyDetailsMap.get("S" + (i + 4) + "NoOfQ").equals("0")){
+                                btnView5.setDisable(true);
+                            }
                             btnView5.setVisible(true);
                             btnBlock5.setVisible(true);
                             switch (surveyDetailsMap.get("S" + (i + 4) + "Status")) {
                                 case "not-approved":
-                                    btnBlock5.setText("approve");
+                                    btnBlock5.setText("Approve");
                                     //ChangeStatus(surveyDetailsMap.get("S" + (i + 4)+ "SID"), "approved")
                                     break;
                                 case "approved":
-                                    btnBlock5.setText("block");
+                                    btnBlock5.setText("Block");
                                     //ChangeStatus(surveyDetailsMap.get("S" + (i + 4)+ "SID"), "blocked")
                                     break;
                                 case "blocked":
-                                    btnBlock5.setText("unblock");
+                                    btnBlock5.setText("Unblock");
                                     //ChangeStatus(surveyDetailsMap.get("S" + (i + 4)+ "SID"), "approved")
                                     break;
                             }

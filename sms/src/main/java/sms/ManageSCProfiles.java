@@ -15,7 +15,6 @@ import java.util.ResourceBundle;
 import javax.swing.*;
 
 import javafx.fxml.Initializable;
-
 import Objects.SurveyCreator;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -30,7 +29,62 @@ public class ManageSCProfiles implements Initializable{
     @FXML private TextField txtAge;
     @FXML private TextField txtGender;
 
+    @FXML private Label lblPageNo;
+    @FXML private Button btnNext;
+    @FXML private Button btnPrev;
+
     String scID = "";
+    int pageNo;
+
+    public void PreviousPage(){
+        pageNo--;
+        ViewSCProfile(pageNo);
+    }
+
+    public void NextPage(){
+        pageNo++;
+        ViewSCProfile(pageNo);
+    }
+
+    public void ViewSCProfile(int pageNo){
+        String fileName = "target/classes/Text Files/SurveyCreator.txt";
+        ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
+        ObjectInputStream is;
+        try {
+            is = new ObjectInputStream(new FileInputStream(fileName));
+            try {
+                scList = (ArrayList) is.readObject();
+            } catch (ClassNotFoundException e1) {
+                System.out.println("Class Not Found");
+                e1.printStackTrace();
+            }
+            is.close();
+        } catch (FileNotFoundException e1) {
+            System.out.println("File Not Found");
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            System.out.println("IO Exception");
+            e1.printStackTrace();
+        }
+        lblPageNo.setText("Page " + pageNo + "/" + scList.size());
+        if (pageNo == scList.size()){
+            btnNext.setDisable(true);
+        } else {
+            btnNext.setDisable(false);
+        }
+        if (pageNo == 1){
+            btnPrev.setDisable(true);
+        } else {
+            btnPrev.setDisable(false);
+        }
+        txtUsername.setText(scList.get(pageNo - 1).getCreatorName());
+        txtFirstName.setText(scList.get(pageNo - 1).getFirstName());
+        txtLastName.setText(scList.get(pageNo - 1).getLastName());
+        txtEmail.setText(scList.get(pageNo - 1).getEmail());
+        txtPhoneNumber.setText(scList.get(pageNo - 1).getContactNumber());
+        txtAge.setText(String.valueOf(scList.get(pageNo - 1).getAge()));
+        txtGender.setText(scList.get(pageNo - 1).getGender());
+    }
 
     public void DeleteSCProfile(){
 
@@ -155,36 +209,46 @@ public class ManageSCProfiles implements Initializable{
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        String fileName = "target/classes/Text Files/SurveyCreator.txt";
-        ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
-        ObjectInputStream is;
-        try {
-            is = new ObjectInputStream(new FileInputStream(fileName));
-            try {
-                scList = (ArrayList) is.readObject();
-            } catch (ClassNotFoundException e1) {
-                System.out.println("Class Not Found");
-                e1.printStackTrace();
-            }
-            is.close();
-        } catch (FileNotFoundException e1) {
-            System.out.println("File Not Found");
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            System.out.println("IO Exception");
-            e1.printStackTrace();
-        }
+        txtUsername.setEditable(false);
+        txtFirstName.setEditable(false);
+        txtLastName.setEditable(false);
+        txtEmail.setEditable(false);
+        txtPhoneNumber.setEditable(false);
+        txtAge.setEditable(false);
+        txtGender.setEditable(false);
 
-        scID = scList.get(0).getScID();
+        pageNo = 1;
+        ViewSCProfile(pageNo);
+        // String fileName = "target/classes/Text Files/SurveyCreator.txt";
+        // ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
+        // ObjectInputStream is;
+        // try {
+        //     is = new ObjectInputStream(new FileInputStream(fileName));
+        //     try {
+        //         scList = (ArrayList) is.readObject();
+        //     } catch (ClassNotFoundException e1) {
+        //         System.out.println("Class Not Found");
+        //         e1.printStackTrace();
+        //     }
+        //     is.close();
+        // } catch (FileNotFoundException e1) {
+        //     System.out.println("File Not Found");
+        //     e1.printStackTrace();
+        // } catch (IOException e1) {
+        //     System.out.println("IO Exception");
+        //     e1.printStackTrace();
+        // }
+
+        // scID = scList.get(0).getScID();
 
 
-        txtUsername.setText(scList.get(0).getCreatorName());
-        txtFirstName.setText(scList.get(0).getFirstName());
-        txtLastName.setText(scList.get(0).getLastName());
-        txtEmail.setText(scList.get(0).getEmail());
-        txtPhoneNumber.setText(scList.get(0).getContactNumber());
-        txtAge.setText(String.valueOf(scList.get(0).getAge()));
-        txtGender.setText(scList.get(0).getGender());
+        // txtUsername.setText(scList.get(0).getCreatorName());
+        // txtFirstName.setText(scList.get(0).getFirstName());
+        // txtLastName.setText(scList.get(0).getLastName());
+        // txtEmail.setText(scList.get(0).getEmail());
+        // txtPhoneNumber.setText(scList.get(0).getContactNumber());
+        // txtAge.setText(String.valueOf(scList.get(0).getAge()));
+        // txtGender.setText(scList.get(0).getGender());
     }
 
 

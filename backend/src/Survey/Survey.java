@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Survey {
 
@@ -32,6 +31,7 @@ public class Survey {
                     System.out.println("Status: " + surveyDetails.get(3));
                     String[] e2 = surveyDetails.get(4).split("␝");
                     List<String> questionList = Arrays.asList(e2);
+                    System.out.println("No of Qs: " + questionList.size() / 2);
                     for (int i3 = 0; i3 < questionList.size(); i3++){
                         if (i3 % 2 == 0){
                             System.out.println("Question Type: " + questionList.get(i3));
@@ -537,6 +537,35 @@ public class Survey {
                 System.out.println("IO Exception");
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void ViewQuestions(String surveyID, int qNo){
+        String fileName = "src/Text Files/Surveys.txt";
+
+        List<String> listOfSurveys;
+        try {
+            listOfSurveys = Files.readAllLines(Paths.get(fileName));
+            for (int i = 0; i < listOfSurveys.size(); i++){
+                String[] e1 = listOfSurveys.get(i).split("␜");
+                List<String> surveyDetails = Arrays.asList(e1);
+                if (surveyID.equals(surveyDetails.get(0))){
+                    String[] e2 = surveyDetails.get(4).split("␝");
+                    List<String> questionList = Arrays.asList(e2);
+                    System.out.println("Question " + qNo);
+                    System.out.println("Quetion Type: " + questionList.get((qNo - 1) * 2));
+                    String[] e3 = questionList.get(((qNo - 1) * 2) + 1).split("␞");
+                            List<String> questionDetails = Arrays.asList(e3);
+                            System.out.println("Question: " + questionDetails.get(0));
+                            for (int i2 = 1; i2 < questionDetails.size(); i2++){
+                                System.out.println("Answer: " + i2 + ": " + questionDetails.get(i2));
+                            }
+
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
         }
     }
 

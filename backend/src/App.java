@@ -26,6 +26,7 @@ public class App {
         // DeleteSCProfile("SC1");
         // PrintDetailsSC();
         // Survey.ViewSurveys();
+        Survey.ViewQuestions("S5", 6);
         // Survey.ChangeStatus("S5", "not-approved");
         // Survey.EditTitle("S1", "New Survey 1");
         // Survey.CreateSurvey();
@@ -33,7 +34,7 @@ public class App {
         // Survey.EditQuestion("S7");
         // Survey.DeleteQuestion("S4");
         // Survey.ViewResponses("S1");
-        Survey.SaveResponses("S1");
+        // Survey.SaveResponses("S1");
     }
 
     public static void PrintDetailsAdmin(){

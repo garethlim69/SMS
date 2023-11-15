@@ -47,6 +47,7 @@ public class SCLogin {
         for (int i = 0; i < scList.size(); i++){
             if (enteredUsername.equals(scList.get(i).getCreatorName()) && encryptPassword(enteredPassword).equals(scList.get(i).getPassword())){
                 isLoginSuccess = true;
+                SCDasboard.SCID(scList.get(i).getScID());
                 System.out.println(scList.get(i).getCreatorName());
             }
         }
