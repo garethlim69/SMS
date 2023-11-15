@@ -8,4 +8,9 @@ public class MainMenu {
     private void switchAdmin() throws IOException {
         App.setRoot("adminLogin");
     }
+
+    @FXML
+    private void switchSC() throws IOException {
+        App.setRoot("scLogin");
+    }
 }

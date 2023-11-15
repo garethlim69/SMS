@@ -21,7 +21,6 @@ public class RegisterNewAdmin {
     @FXML private TextField txtPassword;
     @FXML private TextField txtPassword2;
     @FXML private TextField txtEmail;
-    @FXML
 
     public void RegisterAdmin(){
         String fileName = "target/classes/Text Files/Admin.txt";
@@ -103,6 +102,11 @@ public class RegisterNewAdmin {
             }
         }
 
+    }
+
+    @FXML
+    private void switchAdminDashboard() throws IOException {
+        App.setRoot("adminDashboard");
     }
 
     public static String encryptPassword(String password){

@@ -13,7 +13,7 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <Button fx:id="btnBack" layoutX="529.0" layoutY="206.0" mnemonicParsing="false" text="&lt;" />
+      <Button fx:id="btnBack" layoutX="529.0" layoutY="206.0" mnemonicParsing="false" onAction="#switchMainMenu" text="&lt;" />
       <Label layoutX="529.0" layoutY="276.0" text="Username:">
          <font>
             <Font size="18.0" />

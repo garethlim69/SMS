@@ -15,9 +15,9 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="274.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.0" minWidth="10.0" prefWidth="150.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="200.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="90.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="90.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="79.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="136.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="115.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.0" minWidth="10.0" prefWidth="90.0" />
         </columnConstraints>
         <rowConstraints>
@@ -51,34 +51,34 @@
             <Label fx:id="lblTitle5" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="lblStatus4" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Label fx:id="lblStatus5" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <Label fx:id="lblSCID14" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Label fx:id="lblSCID4" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
             <Label fx:id="lblSCID5" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-            <Button fx:id="btnView1" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-            <Button fx:id="btnBlock1" mnemonicParsing="false" text="Button" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <Button fx:id="btnResponses1" mnemonicParsing="false" text="Button" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-            <Button fx:id="btnDelete1" mnemonicParsing="false" text="Button" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-            <Button fx:id="btnView2" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-            <Button fx:id="btnBlock2" mnemonicParsing="false" text="Button" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-            <Button fx:id="btnResponses2" mnemonicParsing="false" text="Button" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-            <Button fx:id="btnDelete2" mnemonicParsing="false" text="Button" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-            <Button fx:id="btnView3" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Button fx:id="btnBlock3" mnemonicParsing="false" text="Button" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-            <Button fx:id="btnResponses3" mnemonicParsing="false" text="Button" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-            <Button fx:id="btnDelete3" mnemonicParsing="false" text="Button" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-            <Button fx:id="btnView4" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-            <Button fx:id="btnBlock4" mnemonicParsing="false" text="Button" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-            <Button fx:id="btnResponses4" mnemonicParsing="false" text="Button" GridPane.columnIndex="6" GridPane.rowIndex="4" />
-            <Button fx:id="btnDelete4" mnemonicParsing="false" text="Button" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-            <Button fx:id="btnView5" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Button fx:id="btnBlock5" mnemonicParsing="false" text="Button" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-            <Button fx:id="btnResponses5" mnemonicParsing="false" text="Button" GridPane.columnIndex="6" GridPane.rowIndex="5" />
-            <Button fx:id="btnDelete5" mnemonicParsing="false" text="Button" GridPane.columnIndex="7" GridPane.rowIndex="5" />
+            <Button fx:id="btnView1" mnemonicParsing="false" text="View" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <Button fx:id="btnBlock1" mnemonicParsing="false" text="Change Status" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Button fx:id="btnResponses1" mnemonicParsing="false" text="Responses" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+            <Button fx:id="btnDelete1" mnemonicParsing="false" text="Delete" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+            <Button fx:id="btnView2" mnemonicParsing="false" text="View" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <Button fx:id="btnBlock2" mnemonicParsing="false" text="Change Status" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <Button fx:id="btnResponses2" mnemonicParsing="false" text="Responses" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <Button fx:id="btnDelete2" mnemonicParsing="false" text="Delete" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+            <Button fx:id="btnView3" mnemonicParsing="false" text="View" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+            <Button fx:id="btnBlock3" mnemonicParsing="false" text="Change Status" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+            <Button fx:id="btnResponses3" mnemonicParsing="false" text="Responses" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+            <Button fx:id="btnDelete3" mnemonicParsing="false" text="Delete" GridPane.columnIndex="7" GridPane.rowIndex="3" />
+            <Button fx:id="btnView4" mnemonicParsing="false" text="View" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Button fx:id="btnBlock4" mnemonicParsing="false" text="Change Status" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+            <Button fx:id="btnResponses4" mnemonicParsing="false" text="Responses" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Button fx:id="btnDelete4" mnemonicParsing="false" text="Delete" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+            <Button fx:id="btnView5" mnemonicParsing="false" text="View" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+            <Button fx:id="btnBlock5" mnemonicParsing="false" text="Change Status" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+            <Button fx:id="btnResponses5" mnemonicParsing="false" text="Responses" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+            <Button fx:id="btnDelete5" mnemonicParsing="false" text="Delete" GridPane.columnIndex="7" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <Label layoutX="101.0" layoutY="48.0" text="Manage Survey" />
-      <Button fx:id="btnBack" layoutX="65.0" layoutY="44.0" mnemonicParsing="false" text="&lt;" />
-      <Button layoutX="1143.0" layoutY="643.0" mnemonicParsing="false" text="&gt;" />
-      <Button layoutX="1053.0" layoutY="643.0" mnemonicParsing="false" text="&lt;" />
-      <Label fx:id="lblPage" layoutX="1096.0" layoutY="647.0" text="Label" />
+      <Button fx:id="btnBack" onAction="#switchAdminDashboard" layoutX="65.0" layoutY="44.0" mnemonicParsing="false" text="&lt;" />
+      <Button fx:id="btnNext" onAction="#NextPage" layoutX="1159.0" layoutY="643.0" mnemonicParsing="false" text="&gt;" />
+      <Button fx:id="btnPrev" onAction="#PreviousPage" layoutX="1032.0" layoutY="643.0" mnemonicParsing="false" text="&lt;" />
+      <Label fx:id="lblPageNo" layoutX="1084.0" layoutY="647.0" text="Page 1/2" textAlignment="CENTER" />
    </children>
 </Pane>

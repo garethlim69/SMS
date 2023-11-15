@@ -17,13 +17,29 @@ public class AdminDashboard implements Initializable {
     }
 
     @FXML
+    private void switchManageSC() throws IOException {
+        App.setRoot("manageSCProfiles");
+    }
+
+    @FXML
     private void switchManageSurvey() throws IOException {
         App.setRoot("manageSurvey");
+    }
+
+    @FXML
+    private void switchAdminEditProfile() throws IOException {
+        AdminEditProfile.uniqueKey(adminUsername);
+        App.setRoot("adminEditProfile");
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         lblUsername.setText(adminUsername);
+    }
+
+    @FXML
+    private void switchMainMenu() throws IOException {
+        App.setRoot("mainMenu");
     }
 
     public static void uniqueKey(String username){

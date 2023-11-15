@@ -8,31 +8,25 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import Objects.SurveyCreator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.TextField;
-import Objects.Admin;
 
+public class SCLogin {
 
-public class AdminLogin {
     @FXML private TextField txtUsername;
     @FXML private TextField txtPassword;
+    
+    public void LoginSC() throws IOException{
+        String fileName = "target/classes/Text Files/SurveyCreator.txt";
+        ArrayList<SurveyCreator> scList = new ArrayList<SurveyCreator>();
+        boolean isLoginSuccess = false;
 
-    @FXML
-    private void switchMainMenu() throws IOException {
-        App.setRoot("mainMenu");
-    }
-
-    @FXML
-    private void switchAdminDashboard() throws IOException {
-        String fileName = "target/classes/Text Files/Admin.txt";
-        ArrayList<Admin> adminList = new ArrayList<Admin>();
         ObjectInputStream is;
-        try {
+        try { 
             is = new ObjectInputStream(new FileInputStream(fileName));
             try {
-                adminList = (ArrayList) is.readObject();
+                scList = (ArrayList) is.readObject();
             } catch (ClassNotFoundException e1) {
                 System.out.println("Class Not Found");
                 e1.printStackTrace();
@@ -50,14 +44,29 @@ public class AdminLogin {
         String enteredUsername = txtUsername.getText();
         String enteredPassword = txtPassword.getText();
 
-        for (int i = 0; i < adminList.size(); i++){
-            if (enteredUsername.equals(adminList.get(i).getUsername()) && encryptPassword(enteredPassword).equals(adminList.get(i).getPassword())){
-                AdminDashboard.uniqueKey(adminList.get(i).getUsername());
-                App.setRoot("AdminDashboard");
-            } else {
-                System.out.println("failed");
+        for (int i = 0; i < scList.size(); i++){
+            if (enteredUsername.equals(scList.get(i).getCreatorName()) && encryptPassword(enteredPassword).equals(scList.get(i).getPassword())){
+                isLoginSuccess = true;
+                System.out.println(scList.get(i).getCreatorName());
             }
         }
+        if (isLoginSuccess) {
+            SCDasboard.uniqueKey(enteredUsername);
+            App.setRoot("scDashboard");
+            System.out.println("Success");
+        } else {
+            System.out.println("Failed");
+        }
+    }
+    
+    @FXML
+    private void switchMainMenu() throws IOException {
+        App.setRoot("mainMenu");
+    }
+
+    @FXML
+    private void switchSCRegister() throws IOException {
+        App.setRoot("scRegister");
     }
 
     public static String encryptPassword(String password){

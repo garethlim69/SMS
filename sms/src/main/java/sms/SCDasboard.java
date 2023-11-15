@@ -1,20 +1,29 @@
 package sms;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
+public class SCDasboard implements Initializable {
 
-public class ManageSurvey implements Initializable{
     @FXML private Label lblSID1;
     @FXML private Label lblSID2;
     @FXML private Label lblSID3;
@@ -69,17 +78,14 @@ public class ManageSurvey implements Initializable{
     
     int pageNo;
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        pageNo = 1;
-        ViewSurveys(pageNo);
-    }
+    static String scUsername;
+    @FXML private Label lblUsername;
 
     @FXML
-    private void switchAdminDashboard() throws IOException {
-        App.setRoot("adminDashboard");
+    private void switchSCEditProfile() throws IOException {
+        SCEditProfile.uniqueKey(scUsername);
+        App.setRoot("scEditProfile");
     }
-
 
     public void PreviousPage(){
         pageNo--;
@@ -98,6 +104,7 @@ public class ManageSurvey implements Initializable{
         ViewSurveys(pageNo);
     }
     
+
     @FXML
     public void ViewSurveys(int pageNo){
         String fileName = "target/classes/Text Files/Surveys.txt";
@@ -287,4 +294,130 @@ public class ManageSurvey implements Initializable{
         }
     }
 
+
+    public void CreateSurvey(){
+
+        var surveyTitle = JOptionPane.showInputDialog("Enter Survey Title");
+
+        if (surveyTitle != null && !surveyTitle.isEmpty()) {
+            String fileName = "target/classes/Text Files/Surveys.txt";
+            List<String> listOfSurveys;
+            int index = 1;
+
+            File file = new File(fileName);
+            if (file.length() == 0){
+                    index = 1;
+            } else {
+                try {
+                    listOfSurveys = Files.readAllLines(Paths.get(fileName));
+                    String[] e1 = listOfSurveys.get(listOfSurveys.size() - 1).split("␜");
+                    List<String> surveyDetails = Arrays.asList(e1);
+                    index =  Integer.valueOf(surveyDetails.get(0).substring(1));
+                    index++;
+                } catch (FileNotFoundException e1) {
+                    System.out.println("File Not Found");
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    System.out.println("IO Exception");
+                    e1.printStackTrace();
+                }
+                
+            }
+
+            String createdBy = scUsername;
+            String status = "not-approved";
+            String questionDetails = " ";
+
+            try {
+                listOfSurveys = Files.readAllLines(Paths.get(fileName));
+                String newRecord = "S" + index + "␜" + surveyTitle + "␜" + createdBy + "␜" + status + "␜"  + questionDetails;
+                System.out.println(newRecord);
+                UpdateFile(fileName, listOfSurveys.size() + 1, newRecord);
+
+                // FileWriter fileWritter = new FileWriter(file,true);        
+                // BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+                // bufferWritter.write(newRecord);
+                // bufferWritter.close();
+                // fileWritter.close();
+            } catch (IOException e) {
+                System.out.println("IO Exception");
+                e.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null, "Survey Created");   
+        }else{
+            JOptionPane.showMessageDialog(null, "Survey Not Created"); 
+        }
+
+        
+    }
+
+    public static void UpdateFile(String fileName, int lineNumber, String newRecord) throws IOException {
+        List<String> listOfSurveys;
+        try {
+            listOfSurveys = Files.readAllLines(Paths.get(fileName));
+            if (lineNumber >= listOfSurveys.size()){
+                listOfSurveys.add(newRecord);
+            } else {
+                listOfSurveys.set(lineNumber, newRecord);
+            }
+            File file = new File(fileName);
+            FileWriter fileWritter = new FileWriter(file, false);        
+            BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+            for (int i = 0; i < listOfSurveys.size(); i++){
+                if (i != 0){
+                    bufferWritter.write("\n");
+                }
+                bufferWritter.write(listOfSurveys.get(i));
+            }
+            bufferWritter.close();
+            fileWritter.close();
+            System.out.println("Updated Successfully");
+        } catch (IOException e) {
+            System.out.println("IOException");
+            e.printStackTrace();
+        }
+    }
+
+    public static String encryptPassword(String password){
+        // String password = "myPassword";
+        String encryptedPassword = null;
+        try   
+        {   
+            MessageDigest m = MessageDigest.getInstance("MD5");  
+              
+            m.update(password.getBytes());  
+              
+            byte[] bytes = m.digest();  
+              
+            StringBuilder s = new StringBuilder();  
+            for(int i=0; i< bytes.length ;i++)  
+            {  
+                s.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));  
+            }  
+              
+            encryptedPassword = s.toString();  
+        }   
+        catch (NoSuchAlgorithmException e)   
+        {  
+            e.printStackTrace();  
+        }  
+
+        return encryptedPassword;
+    }
+
+    @FXML
+    private void switchMainMenu() throws IOException {
+        App.setRoot("mainMenu");
+    }
+
+    public static void uniqueKey(String username){
+        scUsername = username;
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        lblUsername.setText(scUsername);
+        pageNo = 1;
+        ViewSurveys(pageNo);
+    }
 }
